@@ -29,6 +29,26 @@ app.get('/',cors(), function(req, res,next) {
       })
   })
 
+  app.post('/chart',cors(), function(req, res,next) {
+    // console.log(req.body)
+    a = []
+    a = req.body.rule
+    // console.log(a)
+    test.aggregate([ 
+        {$match : { $or : a}},
+        {$group : { _id : "$sig_id" , total_packet: { $sum: 1}}}
+        
+    ],(err, docs) => {
+      if(err){
+        console.log("err")
+      }else{
+        console.log(docs)
+        res.json(docs)
+      }
+
+      })
+  })
+
 module.exports = app
 
         //           $group : {
